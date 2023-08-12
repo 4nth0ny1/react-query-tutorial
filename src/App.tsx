@@ -12,8 +12,12 @@ interface Data {
 }
 
 function App() {
-  const { data } = useQuery({
+  const wait = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  const { data, isLoading } = useQuery({
     queryFn: async () => {
+      await wait(2000);
       const { data } = await axios.get(
         "https://jsonplaceholder.typicode.com/posts/1"
       );
@@ -24,7 +28,7 @@ function App() {
   return (
     <>
       <h1>React Query Tutorial Josh </h1>
-      <div>{JSON.stringify(data)}</div>
+      <div>{isLoading ? "Content is Loading" : JSON.stringify(data)}</div>
     </>
   );
 }
