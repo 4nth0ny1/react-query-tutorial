@@ -20,3 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 ```
+
+## scroll-based package
+
+npm install @mantine/hooks

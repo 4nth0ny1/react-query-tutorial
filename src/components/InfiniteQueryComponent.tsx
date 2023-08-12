@@ -1,4 +1,6 @@
+import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 
 const posts = [
   { id: 1, title: "post" },
@@ -32,16 +34,33 @@ export const InfiniteQueryComponent = () => {
       },
     }
   );
+
+  const lastPostRef = useRef<HTMLElement>();
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (entry.isIntersecting) fetchNextPage();
+  }, [entry]);
+
+  const _posts = data?.pages.flatMap((page) => page);
+
   return (
     <div>
       posts:
-      {data?.pages.map((page, i) => (
-        <div key={i}>
-          {page.map((post) => (
-            <div key={post.id}>{post.title}</div>
-          ))}
-        </div>
-      ))}
+      {_posts?.map((post, i) => {
+        if (i === _posts.length - 1)
+          <div ref={ref} key={post.id} className="h-60 bg-white text-black">
+            {post.title}
+          </div>;
+        return (
+          <div key={post.id} className="h-60 bg-white text-black">
+            {post.title}
+          </div>
+        );
+      })}
       <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
         {isFetchingNextPage
           ? "Loading more..."
