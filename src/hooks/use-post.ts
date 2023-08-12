@@ -16,6 +16,15 @@ export const usePost = (postId: number) => {
           );
           return data as Data;
         },
+        onSuccess(data) {
+            // 
+        }, 
+        onError(err) {
+            //
+        }, 
+        cacheTime(){}, 
+
+        // and many more, like refresh the page in onSuccess
       });
    
 }
