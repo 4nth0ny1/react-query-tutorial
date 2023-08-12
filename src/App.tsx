@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import "./App.css";
 import axios from "axios";
+import { usePost } from "./hooks/use-post";
 
 // https://jsonplaceholder.typicode.com/posts
 
@@ -12,28 +13,7 @@ interface Data {
 }
 
 function App() {
-  const wait = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  // const { data, isLoading } = useQuery({
-  //   queryFn: async () => {
-  //     await wait(2000);
-  //     const { data } = await axios.get(
-  //       "https://jsonplaceholder.typicode.com/posts/1"
-  //     );
-  //     return data as Data;
-  //   },
-  // });
-
-  const { data, isLoading } = useMutation({
-    mutationFn: async () => {
-      const { data } = await axios.post(
-        "https://jsonplaceholder.typicode.com/posts/1",
-        { myval: "string" }
-      );
-      return data as Data;
-    },
-  });
+  const { data, isLoading } = usePost(1);
 
   return (
     <>
