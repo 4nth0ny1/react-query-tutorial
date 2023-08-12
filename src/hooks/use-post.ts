@@ -9,7 +9,7 @@ interface Data {
   }
 
 export const usePost = (postId: number) => {
-    const { data, isLoading } = useQuery({
+    return useQuery({
         queryFn: async () => {
           const { data } = await axios.get(
             `https://jsonplaceholder.typicode.com/posts/${postId}`
@@ -17,5 +17,5 @@ export const usePost = (postId: number) => {
           return data as Data;
         },
       });
-      return {data, isLoading}
+   
 }
